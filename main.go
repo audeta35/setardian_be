@@ -25,12 +25,17 @@ func main() {
 
 	handler := httpHandler.InitArticle(db)
 	echoServer := echo.New()
-	// Register the handler
+
+	// articles handler
 	echoServer.GET("/articles", handler.FetchArticles)
 	echoServer.POST("/articles/add", handler.InsertArticles)
 	echoServer.GET("/articles/:id", handler.GetDetailArticle)
 	echoServer.POST("/articles/edit", handler.EditArticles)
 	echoServer.DELETE("/articles/delete/:id", handler.DeleteArticle)
+
+	// admin handler
+	echoServer.GET("/admin/login", handler.LoginAdmin)
+	echoServer.POST("/admin/register", handler.RegisterAdmin)
 
 	// Start the server
 	echoServer.Start(":9090")
