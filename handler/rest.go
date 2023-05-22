@@ -9,23 +9,23 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// article CRUD
-
 type ErrorResponse struct {
 	Message string `json:"message"`
 }
 
-type ArticleHandler struct {
+type SteradianHandler struct {
 	DB *sql.DB
 }
 
-func InitArticle(db *sql.DB) ArticleHandler {
-	return ArticleHandler{
+func InitSteradian(db *sql.DB) SteradianHandler {
+	return SteradianHandler{
 		DB: db,
 	}
 }
 
-func (h ArticleHandler) FetchArticles(c echo.Context) (err error) {
+// article CRUD
+
+func (h SteradianHandler) FetchArticles(c echo.Context) (err error) {
 	datas := make([]models.Article, 0)
 	query := `SELECT * FROM article`
 
@@ -63,7 +63,7 @@ func (h ArticleHandler) FetchArticles(c echo.Context) (err error) {
 	return c.JSON(http.StatusOK, datas)
 }
 
-func (h ArticleHandler) InsertArticles(c echo.Context) (err error) {
+func (h SteradianHandler) InsertArticles(c echo.Context) (err error) {
 	var item models.Article
 	err = c.Bind(&item)
 	if err != nil {
@@ -95,7 +95,7 @@ func (h ArticleHandler) InsertArticles(c echo.Context) (err error) {
 	return c.JSON(http.StatusCreated, item)
 }
 
-func (h ArticleHandler) GetDetailArticle(c echo.Context) (err error) {
+func (h SteradianHandler) GetDetailArticle(c echo.Context) (err error) {
 	articleID := c.Param("id")
 
 	query := `SELECT * FROM article WHERE id=?`
@@ -119,7 +119,7 @@ func (h ArticleHandler) GetDetailArticle(c echo.Context) (err error) {
 	return c.JSON(http.StatusCreated, res)
 }
 
-func (h ArticleHandler) EditArticles(c echo.Context) (err error) {
+func (h SteradianHandler) EditArticles(c echo.Context) (err error) {
 
 	// articleId := c.Param("id")
 	var item models.Article
@@ -153,7 +153,7 @@ func (h ArticleHandler) EditArticles(c echo.Context) (err error) {
 	return c.JSON(http.StatusCreated, item)
 }
 
-func (h ArticleHandler) DeleteArticle(c echo.Context) (err error) {
+func (h SteradianHandler) DeleteArticle(c echo.Context) (err error) {
 	articleID := c.Param("id")
 
 	query := `DELETE FROM article WHERE id=?`
@@ -178,6 +178,12 @@ func (h ArticleHandler) DeleteArticle(c echo.Context) (err error) {
 }
 
 // user CRUD
+
+func (h SteradianHandler) FetchUsers(c echo.Context) (err error) {
+	datas := make([]models.User, 0)
+	query := `SELECT * FROM users`
+
+}
 
 // admin CRUD
 

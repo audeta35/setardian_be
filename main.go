@@ -23,7 +23,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	handler := httpHandler.InitArticle(db)
+	handler := httpHandler.InitSteradian(db)
 	echoServer := echo.New()
 	// Register the handler
 	echoServer.GET("/articles", handler.FetchArticles)
