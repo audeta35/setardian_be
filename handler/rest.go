@@ -247,8 +247,9 @@ func (h SteradianHandler) RegisterUser(c echo.Context) (err error) {
 
 func (h SteradianHandler) LoginAdmin(c echo.Context) (err error) {
 	var item models.UserAdminLogin
+	err = c.Bind(&item)
 
-	query := `SELECT email, password FROM admin WHERE email=? AND password =?`
+	query := `SELECT email, password FROM admin WHERE email=? AND password=?`
 	row := h.DB.QueryRow(query, item.Email, item.Password)
 
 	var res models.UserAdminData
