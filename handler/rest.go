@@ -457,7 +457,7 @@ func (h SteradianHandler) OrderDelete(c echo.Context) (err error) {
 
 // cars CRUD
 
-func (h SteradianHandler) CarFetch(c echo.Context) (err error) {
+func (h SteradianHandler) CarsFetch(c echo.Context) (err error) {
 	datas := make([]models.Cars, 0)
 	query := `SELECT * FROM cars`
 
