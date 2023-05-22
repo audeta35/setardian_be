@@ -243,12 +243,6 @@ func (h SteradianHandler) RegisterUser(c echo.Context) (err error) {
 	return c.JSON(http.StatusCreated, item)
 }
 
-func (h SteradianHandler) FetchUsers(c echo.Context) (err error) {
-	datas := make([]models.User, 0)
-	query := `SELECT * FROM users`
-
-}
-
 // admin CRUD
 
 func (h SteradianHandler) LoginAdmin(c echo.Context) (err error) {
