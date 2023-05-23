@@ -395,7 +395,7 @@ func (h SteradianHandler) OrderAdd(c echo.Context) (err error) {
 
 func (h SteradianHandler) OrderEdit(c echo.Context) (err error) {
 
-	// articleId := c.Param("id")
+	orderId := c.Param("id")
 	var item models.Orders
 	err = c.Bind(&item)
 	if err != nil {
@@ -407,7 +407,7 @@ func (h SteradianHandler) OrderEdit(c echo.Context) (err error) {
 
 	query := `UPDATE orders SET pickUpLoc=?, dropOffLoc=?, pickUpDate=?, dropOffDate=?, pickUpTime=?, cardId=?, userId=?, adminId=? WHERE orderId=?`
 
-	dbRes, err := h.DB.Exec(query, item.PickUpLoc, item.DropOffLoc, item.PickUpDate, item.DropOffDate, item.PickUpTime, item.CarId, item.UserId, item.AdminId, item.ID)
+	dbRes, err := h.DB.Exec(query, item.PickUpLoc, item.DropOffLoc, item.PickUpDate, item.DropOffDate, item.PickUpTime, item.CarId, item.UserId, item.AdminId, orderId)
 	if err != nil {
 		resp := ErrorResponse{
 			Message: err.Error(),
@@ -545,7 +545,7 @@ func (h SteradianHandler) CarsAdd(c echo.Context) (err error) {
 
 func (h SteradianHandler) CarsEdit(c echo.Context) (err error) {
 
-	// articleId := c.Param("id")
+	carId := c.Param("id")
 	var item models.Cars
 	err = c.Bind(&item)
 	if err != nil {
@@ -555,7 +555,7 @@ func (h SteradianHandler) CarsEdit(c echo.Context) (err error) {
 		return c.JSON(http.StatusUnprocessableEntity, resp)
 	}
 
-	query := `UPDATE orders SET name=?, carType=?, rating=?, fuel=?, image=?, hourRate=?, dayRate=?, monthRate=? WHERE carId=?`
+	query := `UPDATE cars SET name=?, carType=?, rating=?, fuel=?, image=?, hourRate=?, dayRate=?, monthRate=? WHERE carId=?`
 
 	dbRes, err := h.DB.Exec(query,
 		item.Name,
@@ -566,7 +566,7 @@ func (h SteradianHandler) CarsEdit(c echo.Context) (err error) {
 		item.HourRate,
 		item.DayRate,
 		item.MonthRate,
-		item.ID)
+		carId)
 	if err != nil {
 		resp := ErrorResponse{
 			Message: err.Error(),
@@ -574,7 +574,7 @@ func (h SteradianHandler) CarsEdit(c echo.Context) (err error) {
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
 
-	insertedID, err := dbRes.LastInsertId()
+	insertedID, err := dbRes.RowsAffected()
 	if err != nil {
 		resp := ErrorResponse{
 			Message: err.Error(),
