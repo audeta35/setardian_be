@@ -178,15 +178,15 @@ func (h SteradianHandler) DeleteArticle(c echo.Context) (err error) {
 // users CRUD
 
 func (h SteradianHandler) LoginUser(c echo.Context) (err error) {
-	var item models.UserAdminLogin
+	var item models.UserAdminData
 
 	query := `SELECT email, password FROM admin WHERE email=? AND password =?`
 	row := h.DB.QueryRow(query, item.Email, item.Password)
 
-	var res models.UserAdminData
 	err = row.Scan(
-		&res.UserID,
-		&res.Email,
+		&item.UserID,
+		&item.Email,
+		&item.Password,
 	)
 
 	if err != nil {
@@ -208,7 +208,7 @@ func (h SteradianHandler) LoginUser(c echo.Context) (err error) {
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
 
-	return c.JSON(http.StatusCreated, res)
+	return c.JSON(http.StatusCreated, item)
 }
 
 func (h SteradianHandler) RegisterUser(c echo.Context) (err error) {
@@ -246,16 +246,17 @@ func (h SteradianHandler) RegisterUser(c echo.Context) (err error) {
 // admin CRUD
 
 func (h SteradianHandler) LoginAdmin(c echo.Context) (err error) {
-	var item models.UserAdminLogin
+	var item models.UserAdminData
 	err = c.Bind(&item)
-
-	query := `SELECT email, password FROM admin WHERE email=? AND password=?`
+	fmt.Println("item")
+	fmt.Println(item)
+	query := `SELECT * FROM admin WHERE email=? AND password=?`
 	row := h.DB.QueryRow(query, item.Email, item.Password)
 
-	var res models.UserAdminData
 	err = row.Scan(
-		&res.UserID,
-		&res.Email,
+		&item.UserID,
+		&item.Email,
+		&item.Password,
 	)
 
 	if err != nil {
@@ -277,7 +278,7 @@ func (h SteradianHandler) LoginAdmin(c echo.Context) (err error) {
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
 
-	return c.JSON(http.StatusCreated, res)
+	return c.JSON(http.StatusCreated, item)
 }
 
 func (h SteradianHandler) RegisterAdmin(c echo.Context) (err error) {

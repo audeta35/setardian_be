@@ -14,8 +14,9 @@ type UserAdminLogin struct {
 }
 
 type UserAdminData struct {
-	UserID string `json:userId`
-	Email  string `json:email`
+	UserID   string `json:userId`
+	Email    string `json:email`
+	Password string `json:password`
 }
 
 type AdminRegister struct {
