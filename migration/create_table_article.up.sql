@@ -25,7 +25,7 @@ CREATE TABLE `orders` (
   `pickupDate` text,
   `dropOffDate` text,
   `pickUpTime` text,
-  `cardId` int(11),
+  `carId` int(11),
   `userId` int(11),
   `adminId` int(11),
   PRIMARY KEY (`orderId`)

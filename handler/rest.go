@@ -362,6 +362,8 @@ func (h SteradianHandler) OrderFetch(c echo.Context) (err error) {
 func (h SteradianHandler) OrderAdd(c echo.Context) (err error) {
 	var item models.Orders
 	err = c.Bind(&item)
+	fmt.Println("item order")
+	fmt.Println(item)
 	if err != nil {
 		resp := ErrorResponse{
 			Message: err.Error(),
@@ -369,7 +371,7 @@ func (h SteradianHandler) OrderAdd(c echo.Context) (err error) {
 		return c.JSON(http.StatusUnprocessableEntity, resp)
 	}
 
-	query := `INSERT order SET pickUpLoc=?, dropOffLoc=?, pickUpDate=?, dropOffDate=?, pickUpTime=?, carId=?, userId=?, adminId=?`
+	query := `INSERT orders SET pickUpLoc=?, dropOffLoc=?, pickUpDate=?, dropOffDate=?, pickUpTime=?, cardId=?, userId=?, adminId=?`
 
 	dbRes, err := h.DB.Exec(query, item.PickUpLoc, item.DropOffLoc, item.PickUpDate, item.DropOffDate, item.PickUpTime, item.CarId, item.UserId, item.AdminId)
 	if err != nil {
@@ -403,7 +405,7 @@ func (h SteradianHandler) OrderEdit(c echo.Context) (err error) {
 		return c.JSON(http.StatusUnprocessableEntity, resp)
 	}
 
-	query := `UPDATE orders SET pickUpLoc=?, dropOffLoc=?, pickUpDate=?, dropOffDate=?, pickUpTime=?, carId=?, userId=?, adminId=? WHERE id=?`
+	query := `UPDATE orders SET pickUpLoc=?, dropOffLoc=?, pickUpDate=?, dropOffDate=?, pickUpTime=?, carId=?, userId=?, adminId=? WHERE orderId=?`
 
 	dbRes, err := h.DB.Exec(query, item.PickUpLoc, item.DropOffLoc, item.PickUpDate, item.DropOffDate, item.PickUpTime, item.CarId, item.UserId, item.AdminId, item.ID)
 	if err != nil {
@@ -428,7 +430,7 @@ func (h SteradianHandler) OrderEdit(c echo.Context) (err error) {
 func (h SteradianHandler) OrderDelete(c echo.Context) (err error) {
 	orderID := c.Param("id")
 
-	query := `DELETE FROM orders WHERE id=?`
+	query := `DELETE FROM orders WHERE orderId=?`
 	row := h.DB.QueryRow(query, orderID)
 	var res models.Orders
 	err = row.Scan(
@@ -476,7 +478,7 @@ func (h SteradianHandler) CarsFetch(c echo.Context) (err error) {
 	for rows.Next() {
 		var res models.Cars
 		err := rows.Scan(
-			&res.CarId,
+			&res.ID,
 			&res.Name,
 			&res.CarType,
 			&res.Rating,
@@ -591,7 +593,7 @@ func (h SteradianHandler) CarsDelete(c echo.Context) (err error) {
 	row := h.DB.QueryRow(query, carsId)
 	var res models.Cars
 	err = row.Scan(
-		&res.CarId,
+		&res.ID,
 		&res.Name,
 		&res.CarType,
 		&res.Rating,
