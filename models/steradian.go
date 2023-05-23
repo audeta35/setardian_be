@@ -58,7 +58,7 @@ type Cars struct {
 	Name      string `json:name`
 	CarType   string `json:carType`
 	Rating    string `json:rating`
-	Fuel      string `json:fuel`
+	Fuel      int64  `json:fuel`
 	Image     string `json:image`
 	HourRate  string `json:hourRate`
 	DayRate   string `json:dayRate`

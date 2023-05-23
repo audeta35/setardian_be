@@ -45,13 +45,13 @@ func main() {
 	echoServer.GET("/orders", handler.OrderFetch)
 	echoServer.POST("/orders/add", handler.OrderAdd)
 	echoServer.POST("/orders/edit", handler.OrderEdit)
-	echoServer.DELETE("/orders/delete", handler.OrderDelete)
+	echoServer.DELETE("/orders/delete/:id", handler.OrderDelete)
 
 	// cars handler
 	echoServer.GET("/cars", handler.CarsFetch)
 	echoServer.POST("/cars/add", handler.CarsAdd)
 	echoServer.POST("/cars/edit", handler.CarsEdit)
-	echoServer.DELETE("/cars/delete", handler.CarsDelete)
+	echoServer.DELETE("/cars/delete/:id", handler.CarsDelete)
 
 	// Start the server
 	echoServer.Start(":9090")

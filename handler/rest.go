@@ -405,7 +405,7 @@ func (h SteradianHandler) OrderEdit(c echo.Context) (err error) {
 		return c.JSON(http.StatusUnprocessableEntity, resp)
 	}
 
-	query := `UPDATE orders SET pickUpLoc=?, dropOffLoc=?, pickUpDate=?, dropOffDate=?, pickUpTime=?, carId=?, userId=?, adminId=? WHERE orderId=?`
+	query := `UPDATE orders SET pickUpLoc=?, dropOffLoc=?, pickUpDate=?, dropOffDate=?, pickUpTime=?, cardId=?, userId=?, adminId=? WHERE orderId=?`
 
 	dbRes, err := h.DB.Exec(query, item.PickUpLoc, item.DropOffLoc, item.PickUpDate, item.DropOffDate, item.PickUpTime, item.CarId, item.UserId, item.AdminId, item.ID)
 	if err != nil {
@@ -555,7 +555,7 @@ func (h SteradianHandler) CarsEdit(c echo.Context) (err error) {
 		return c.JSON(http.StatusUnprocessableEntity, resp)
 	}
 
-	query := `UPDATE orders SET name=?, carType=?, rating=?, fuel=?, image=?, hourRate=?, dayRate=?, monthRate=? WHERE id=?`
+	query := `UPDATE orders SET name=?, carType=?, rating=?, fuel=?, image=?, hourRate=?, dayRate=?, monthRate=? WHERE carId=?`
 
 	dbRes, err := h.DB.Exec(query,
 		item.Name,
