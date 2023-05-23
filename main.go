@@ -27,8 +27,8 @@ func main() {
 	echoServer := echo.New()
 
 	// articles handler
-	echoServer.POST("/articles", handler.FetchArticles)
-	echoServer.POST("/articles/add", handler.InsertArticles)
+	echoServer.GET("/articles", handler.FetchArticles)
+	echoServer.GET("/articles/add", handler.InsertArticles)
 	echoServer.POST("/articles/:id", handler.GetDetailArticle)
 	echoServer.POST("/articles/edit", handler.EditArticles)
 	echoServer.DELETE("/articles/delete/:id", handler.DeleteArticle)
@@ -42,13 +42,13 @@ func main() {
 	echoServer.POST("/user/register", handler.RegisterUser)
 
 	// order handler
-	echoServer.POST("/orders", handler.OrderFetch)
+	echoServer.GET("/orders", handler.OrderFetch)
 	echoServer.POST("/orders/add", handler.OrderAdd)
 	echoServer.POST("/orders/edit", handler.OrderEdit)
 	echoServer.DELETE("/orders/delete", handler.OrderDelete)
 
 	// cars handler
-	echoServer.POST("/cars", handler.CarsFetch)
+	echoServer.GET("/cars", handler.CarsFetch)
 	echoServer.POST("/cars/add", handler.CarsAdd)
 	echoServer.POST("/cars/edit", handler.CarsEdit)
 	echoServer.DELETE("/cars/delete", handler.CarsDelete)

@@ -56,7 +56,6 @@ type Orders struct {
 type Cars struct {
 	ID        string `json:carId`
 	Name      string `json:name`
-	CarId     string `json:carId`
 	CarType   string `json:carType`
 	Rating    string `json:rating`
 	Fuel      string `json:fuel`

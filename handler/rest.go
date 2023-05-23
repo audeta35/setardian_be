@@ -563,7 +563,8 @@ func (h SteradianHandler) CarsEdit(c echo.Context) (err error) {
 		item.Image,
 		item.HourRate,
 		item.DayRate,
-		item.MonthRate)
+		item.MonthRate,
+		item.ID)
 	if err != nil {
 		resp := ErrorResponse{
 			Message: err.Error(),
