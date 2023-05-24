@@ -178,13 +178,12 @@ func (h SteradianHandler) DeleteArticle(c echo.Context) (err error) {
 // users CRUD
 
 func (h SteradianHandler) LoginUser(c echo.Context) (err error) {
-	var item models.UserAdminData
+	var item models.UserAdminLogin
 
-	query := `SELECT email, password FROM admin WHERE email=? AND password =?`
+	query := `SELECT email, password FROM users WHERE email=? AND password =?`
 	row := h.DB.QueryRow(query, item.Email, item.Password)
 
 	err = row.Scan(
-		&item.UserID,
 		&item.Email,
 		&item.Password,
 	)
@@ -221,7 +220,7 @@ func (h SteradianHandler) RegisterUser(c echo.Context) (err error) {
 		return c.JSON(http.StatusUnprocessableEntity, resp)
 	}
 
-	query := `INSERT user SET email=?, password=?, phoneNumber=?, city=?, zip=?, message=?, username=?, address=?`
+	query := `INSERT users SET email=?, password=?, phoneNumber=?, city=?, zip=?, message=?, username=?, address=?`
 
 	dbRes, err := h.DB.Exec(query, item.Email, item.Password, item.PhoneNumber, item.City, item.Zip, item.Message, item.UserName, item.Address)
 	if err != nil {
@@ -334,6 +333,7 @@ func (h SteradianHandler) OrderFetch(c echo.Context) (err error) {
 	for rows.Next() {
 		var res models.Orders
 		err := rows.Scan(
+			&res.ID,
 			&res.PickUpLoc,
 			&res.DropOffLoc,
 			&res.PickUpDate,
@@ -342,7 +342,6 @@ func (h SteradianHandler) OrderFetch(c echo.Context) (err error) {
 			&res.CarId,
 			&res.UserId,
 			&res.AdminId,
-			&res.ID,
 		)
 
 		if err != nil {
@@ -415,7 +414,7 @@ func (h SteradianHandler) OrderEdit(c echo.Context) (err error) {
 		return c.JSON(http.StatusInternalServerError, resp)
 	}
 
-	insertedID, err := dbRes.LastInsertId()
+	insertedID, err := dbRes.RowsAffected()
 	if err != nil {
 		resp := ErrorResponse{
 			Message: err.Error(),
